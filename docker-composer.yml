@@ -1,0 +1,35 @@
+version: "2.1"
+services:
+  qbittorrent:
+    image: ghcr.io/linuxserver/qbittorrent
+    container_name: qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      - UMASK_SET=022
+      - WEBUI_PORT=8068
+    volumes:
+      - /appdata/qbittorent/config:/config
+      - /media/8tb/downloads:/downloads
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+      - 8068:8080
+    restart: unless-stopped
+    
+      sabnzbd:
+    image: ghcr.io/linuxserver/sabnzbd
+    container_name: sabnzbd
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    volumes:
+      - /appdata/sabnzbd:/config
+      - /media/8tb/downloads:/downloads
+      - /media/8tb/downloads/incomplete/:/incomplete-downloads
+    ports:
+      - 8080:8080
+      - 9090:9090
+    restart: unless-stopped
